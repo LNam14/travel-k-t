@@ -1,4 +1,5 @@
-import excuteQuery from "../../../db/db";
+import excuteQuery from "@/app/db/db";
+
 
 export async function GET() {
     try {
