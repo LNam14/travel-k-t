@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@edgestore/server": "^0.1.6",
+    "@emotion/react": "^11.11.4",
     "@mui/icons-material": "^5.15.20",
     "@reduxjs/toolkit": "^2.2.5",
     "axios": "^1.7.2",

@@ -1,7 +1,7 @@
 
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
-import excuteQuery from "../../../db/db";
+import excuteQuery from "@/app/db/db";
 export async function POST(req: any) {
     const requestHeaders = new Headers(req.headers);
     const { searchParams } = new URL(req.url);
