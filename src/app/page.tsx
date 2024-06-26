@@ -62,24 +62,24 @@ const Dashboard = () => {
     }
     asyncCall()
   }, [])
-  useEffect(() => {
-    if (Array.isArray(locationL)) {
-      const tourInTN: any = locationL.filter(tour => tour.tour_option === "Trong Nước");
-      setLocationHotTN(tourInTN);
-      const tourInNN: any = locationL.filter(tour => tour.tour_option === "Nước Ngoài");
-      setLocationHotNN(tourInNN);
-    }
-  }, [locationL]);
-  useEffect(() => {
-    if (Array.isArray(tourList)) {
-      const tourInTN = tourList.filter(tour => tour.tour_option === "Trong Nước");
-      setTourTN(tourInTN);
-      const tourInNN = tourList.filter(tour => tour.tour_option === "Nước Ngoài");
-      setTourNN(tourInNN);
-      const tourInPromotion = tourList.filter(tour => tour.promotion == 1);
-      setTourPromotion(tourInPromotion);
-    }
-  }, [tourList]);
+  // useEffect(() => {
+  //   if (Array.isArray(locationL)) {
+  //     const tourInTN: any = locationL.filter(tour => tour.tour_option === "Trong Nước");
+  //     setLocationHotTN(tourInTN);
+  //     const tourInNN: any = locationL.filter(tour => tour.tour_option === "Nước Ngoài");
+  //     setLocationHotNN(tourInNN);
+  //   }
+  // }, [locationL]);
+  // useEffect(() => {
+  //   if (Array.isArray(tourList)) {
+  //     const tourInTN = tourList.filter(tour => tour.tour_option === "Trong Nước");
+  //     setTourTN(tourInTN);
+  //     const tourInNN = tourList.filter(tour => tour.tour_option === "Nước Ngoài");
+  //     setTourNN(tourInNN);
+  //     const tourInPromotion = tourList.filter(tour => tour.promotion == 1);
+  //     setTourPromotion(tourInPromotion);
+  //   }
+  // }, [tourList]);
   const handleSelect = (tour_option: string) => {
     const location = locationList.filter((location) => {
       return location.tour_option == tour_option
@@ -208,7 +208,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        {tourPromotion.length > 0 ?
+        {/* {tourPromotion.length > 0 ?
           (
             <section className="trending pb-9">
               <div className="container">
@@ -591,7 +591,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         <Footer />
 

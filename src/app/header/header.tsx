@@ -8,11 +8,39 @@ import DehazeIcon from '@mui/icons-material/Dehaze';
 import ClearIcon from '@mui/icons-material/Clear';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-
+interface LocationItem {
+    id: number;
+    name: string;
+    area: string;
+    tour_option: string;
+}
 const Header = () => {
     const dispatch = useAppDispatch();
+    const locationList: LocationItem[] = useAppSelector(getLocationList);
+    const [locationTN, setLocationTN] = useState<LocationItem[]>([]);
+    const [locationNN, setLocationNN] = useState<LocationItem[]>([]);
+    const [locationMB, setLocationMB] = useState<LocationItem[]>([]);
+    const [locationMT, setLocationMT] = useState<LocationItem[]>([]);
+    const [locationMN, setLocationMN] = useState<LocationItem[]>([]);
+    const [locationCA, setLocationCA] = useState<LocationItem[]>([]);
 
+    useEffect(() => {
+        const asyncCall = async () => {
+            await dispatch(getLocationAsync())
+        }
+        asyncCall()
+    }, [])
 
+    useEffect(() => {
+        if (Array.isArray(locationList)) {
+            setLocationMB(locationList.filter(location => location.area === "Miền Bắc"));
+            setLocationMT(locationList.filter(location => location.area === "Miền Trung"));
+            setLocationMN(locationList.filter(location => location.area === "Miền Nam"));
+            setLocationCA(locationList.filter(location => location.area === "Châu Á"));
+            setLocationTN(locationList.filter(location => location.tour_option === "Trong Nước"));
+            setLocationNN(locationList.filter(location => location.tour_option === "Nước Ngoài"));
+        }
+    }, [locationList]);
     const [isSelectMB, setIsSelectMB] = useState(false);
     const [isSelectMN, setIsSelectMN] = useState(false);
     const [isSelectMT, setIsSelectMT] = useState(false);
@@ -67,7 +95,7 @@ const Header = () => {
                                                     <li className="submenu dropdown">
                                                         <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button"
                                                             aria-haspopup="true" aria-expanded="false"
-                                                            style={{ color: "#291868", fontWeight: "bold", backgroundColor: "white" }}
+                                                            style={{ color: !isSelectMB ? "#291868" : "white", fontWeight: "bold", backgroundColor: !isSelectMB ? "white" : "#DB251A" }}
                                                             onMouseEnter={() => {
                                                                 setIsSelectMB(true)
                                                             }}
@@ -76,310 +104,110 @@ const Header = () => {
                                                             }}>Du lịch Miền Bắc<i
                                                                 className="fa fa-angle-right" aria-hidden="true"></i></a>
                                                         <ul className="dropdown-menu" >
-                                                            <li
-                                                                onMouseEnter={() => {
-                                                                    setIsSelectMB(true)
+                                                            {locationMB.map((item, index: number) => (
+                                                                <li key={index}
+                                                                    onMouseEnter={() => {
+                                                                        setIsSelect(index);
+                                                                        setIsSelectMB(true)
 
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setIsSelect(null)
-                                                                    setIsSelectMB(false)
-                                                                }}
-                                                                onClick={() => {
-                                                                    // localStorage.setItem('location', JSON.stringify(item.name));
-                                                                }}
-                                                            >
-                                                                <a style={{
-                                                                    fontWeight: "bold",
-                                                                    color: "#291868",
-                                                                    backgroundColor: "white"
-                                                                }}
-                                                                    href="/pages/tour"
+                                                                    }}
+                                                                    onMouseLeave={() => {
+                                                                        setIsSelect(null)
+                                                                        setIsSelectMB(false)
+                                                                    }}
+                                                                    onClick={() => {
+                                                                        localStorage.setItem('location', JSON.stringify(item.name));
+                                                                    }}
                                                                 >
-                                                                    Du lịch Sapa
-                                                                </a>
-                                                            </li>
-                                                            <li
-                                                                onMouseEnter={() => {
-                                                                    setIsSelectMB(true)
-
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setIsSelect(null)
-                                                                    setIsSelectMB(false)
-                                                                }}
-                                                                onClick={() => {
-                                                                    // localStorage.setItem('location', JSON.stringify(item.name));
-                                                                }}
-                                                            >
-                                                                <a style={{
-                                                                    fontWeight: "bold",
-                                                                    color: "#291868",
-                                                                    backgroundColor: "white"
-                                                                }}
-                                                                    href="/pages/tour"
-                                                                >
-                                                                    Du lịch Hà Nội
-                                                                </a>
-                                                            </li>
-                                                            <li
-                                                                onMouseEnter={() => {
-                                                                    setIsSelectMB(true)
-
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setIsSelect(null)
-                                                                    setIsSelectMB(false)
-                                                                }}
-                                                                onClick={() => {
-                                                                    // localStorage.setItem('location', JSON.stringify(item.name));
-                                                                }}
-                                                            >
-                                                                <a style={{
-                                                                    fontWeight: "bold",
-                                                                    color: "#291868",
-                                                                    backgroundColor: "white"
-                                                                }}
-                                                                    href="/pages/tour"
-                                                                >
-                                                                    Du lịch Ninh Bình
-                                                                </a>
-                                                            </li>
-                                                            <li
-                                                                onMouseEnter={() => {
-                                                                    setIsSelectMB(true)
-
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setIsSelect(null)
-                                                                    setIsSelectMB(false)
-                                                                }}
-                                                                onClick={() => {
-                                                                    // localStorage.setItem('location', JSON.stringify(item.name));
-                                                                }}
-                                                            >
-                                                                <a style={{
-                                                                    fontWeight: "bold",
-                                                                    color: "#291868",
-                                                                    backgroundColor: "white"
-                                                                }}
-                                                                    href="/pages/tour"
-                                                                >
-                                                                    Du lịch Hạ Long
-                                                                </a>
-                                                            </li>
+                                                                    <a style={{
+                                                                        fontWeight: "bold",
+                                                                        color: isSelect === index ? "white" : "#291868",
+                                                                        backgroundColor: isSelect === index ? "#DB251A" : "white"
+                                                                    }}
+                                                                        href="/pages/tour"
+                                                                    >
+                                                                        Du lịch {item.name}
+                                                                    </a>
+                                                                </li>
+                                                            ))}
                                                         </ul>
                                                     </li>
                                                     <li className="submenu dropdown">
                                                         <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button"
                                                             aria-haspopup="true" aria-expanded="false"
-                                                            style={{ color: "#291868", fontWeight: "bold", backgroundColor: "white" }}
+                                                            style={{ color: !isSelectMT ? "#291868" : "white", fontWeight: "bold", backgroundColor: !isSelectMT ? "white" : "#DB251A" }}
                                                             onMouseEnter={() => {
-                                                                setIsSelectMB(true)
+                                                                setIsSelectMT(true)
                                                             }}
                                                             onMouseLeave={() => {
-                                                                setIsSelectMB(false)
+                                                                setIsSelectMT(false)
                                                             }}>Du lịch Miền Trung<i
                                                                 className="fa fa-angle-right" aria-hidden="true"></i></a>
                                                         <ul className="dropdown-menu" >
-                                                            <li
-                                                                onMouseEnter={() => {
-                                                                    setIsSelectMB(true)
-
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setIsSelect(null)
-                                                                    setIsSelectMB(false)
-                                                                }}
-                                                                onClick={() => {
-                                                                    // localStorage.setItem('location', JSON.stringify(item.name));
-                                                                }}
-                                                            >
-                                                                <a style={{
-                                                                    fontWeight: "bold",
-                                                                    color: "#291868",
-                                                                    backgroundColor: "white"
-                                                                }}
-                                                                    href="/pages/tour"
+                                                            {locationMT.map((item, index: number) => (
+                                                                <li key={index}
+                                                                    onMouseEnter={() => {
+                                                                        setIsSelect(index);
+                                                                        setIsSelectMT(true)
+                                                                    }}
+                                                                    onMouseLeave={() => {
+                                                                        setIsSelect(null)
+                                                                        setIsSelectMT(false)
+                                                                    }}
+                                                                    onClick={() => {
+                                                                        localStorage.setItem('location', JSON.stringify(item.name));
+                                                                        window.location.href = "/pages/tour";
+                                                                    }}
                                                                 >
-                                                                    Du lịch Đà Nẵng
-                                                                </a>
-                                                            </li>
-                                                            <li
-                                                                onMouseEnter={() => {
-                                                                    setIsSelectMB(true)
-
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setIsSelect(null)
-                                                                    setIsSelectMB(false)
-                                                                }}
-                                                                onClick={() => {
-                                                                    // localStorage.setItem('location', JSON.stringify(item.name));
-                                                                }}
-                                                            >
-                                                                <a style={{
-                                                                    fontWeight: "bold",
-                                                                    color: "#291868",
-                                                                    backgroundColor: "white"
-                                                                }}
-                                                                    href="/pages/tour"
-                                                                >
-                                                                    Du lịch Hà Nội
-                                                                </a>
-                                                            </li>
-                                                            <li
-                                                                onMouseEnter={() => {
-                                                                    setIsSelectMB(true)
-
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setIsSelect(null)
-                                                                    setIsSelectMB(false)
-                                                                }}
-                                                                onClick={() => {
-                                                                    // localStorage.setItem('location', JSON.stringify(item.name));
-                                                                }}
-                                                            >
-                                                                <a style={{
-                                                                    fontWeight: "bold",
-                                                                    color: "#291868",
-                                                                    backgroundColor: "white"
-                                                                }}
-                                                                    href="/pages/tour"
-                                                                >
-                                                                    Du lịch Ninh Bình
-                                                                </a>
-                                                            </li>
-                                                            <li
-                                                                onMouseEnter={() => {
-                                                                    setIsSelectMB(true)
-
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setIsSelect(null)
-                                                                    setIsSelectMB(false)
-                                                                }}
-                                                                onClick={() => {
-                                                                    // localStorage.setItem('location', JSON.stringify(item.name));
-                                                                }}
-                                                            >
-                                                                <a style={{
-                                                                    fontWeight: "bold",
-                                                                    color: "#291868",
-                                                                    backgroundColor: "white"
-                                                                }}
-                                                                    href="/pages/tour"
-                                                                >
-                                                                    Du lịch Hạ Long
-                                                                </a>
-                                                            </li>
+                                                                    <a style={{
+                                                                        color: isSelect === index ? "white" : "#291868",
+                                                                        fontWeight: "bold",
+                                                                        backgroundColor: isSelect === index ? "#DB251A" : "white"
+                                                                    }}
+                                                                        href="/pages/tour"
+                                                                    >
+                                                                        Du lịch {item.name}
+                                                                    </a>
+                                                                </li>
+                                                            ))}
                                                         </ul>
                                                     </li>
                                                     <li className="submenu dropdown">
                                                         <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button"
                                                             aria-haspopup="true" aria-expanded="false"
-                                                            style={{ color: "#291868", fontWeight: "bold", backgroundColor: "white" }}
+                                                            style={{ color: !isSelectMN ? "#291868" : "white", fontWeight: "bold", backgroundColor: !isSelectMN ? "white" : "#DB251A" }}
                                                             onMouseEnter={() => {
-                                                                setIsSelectMB(true)
+                                                                setIsSelectMN(true)
                                                             }}
                                                             onMouseLeave={() => {
-                                                                setIsSelectMB(false)
-                                                            }}>Du lịch Miền Bắc<i
+                                                                setIsSelectMN(false)
+                                                            }}>Du Lịch Miền Nam<i
                                                                 className="fa fa-angle-right" aria-hidden="true"></i></a>
                                                         <ul className="dropdown-menu" >
-                                                            <li
-                                                                onMouseEnter={() => {
-                                                                    setIsSelectMB(true)
-
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setIsSelect(null)
-                                                                    setIsSelectMB(false)
-                                                                }}
-                                                                onClick={() => {
-                                                                    // localStorage.setItem('location', JSON.stringify(item.name));
-                                                                }}
-                                                            >
-                                                                <a style={{
-                                                                    fontWeight: "bold",
-                                                                    color: "#291868",
-                                                                    backgroundColor: "white"
-                                                                }}
-                                                                    href="/pages/tour"
-                                                                >
-                                                                    Du lịch Sapa
-                                                                </a>
-                                                            </li>
-                                                            <li
-                                                                onMouseEnter={() => {
-                                                                    setIsSelectMB(true)
-
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setIsSelect(null)
-                                                                    setIsSelectMB(false)
-                                                                }}
-                                                                onClick={() => {
-                                                                    // localStorage.setItem('location', JSON.stringify(item.name));
-                                                                }}
-                                                            >
-                                                                <a style={{
-                                                                    fontWeight: "bold",
-                                                                    color: "#291868",
-                                                                    backgroundColor: "white"
-                                                                }}
-                                                                    href="/pages/tour"
-                                                                >
-                                                                    Du lịch Hà Nội
-                                                                </a>
-                                                            </li>
-                                                            <li
-                                                                onMouseEnter={() => {
-                                                                    setIsSelectMB(true)
-
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setIsSelect(null)
-                                                                    setIsSelectMB(false)
-                                                                }}
-                                                                onClick={() => {
-                                                                    // localStorage.setItem('location', JSON.stringify(item.name));
-                                                                }}
-                                                            >
-                                                                <a style={{
-                                                                    fontWeight: "bold",
-                                                                    color: "#291868",
-                                                                    backgroundColor: "white"
-                                                                }}
-                                                                    href="/pages/tour"
-                                                                >
-                                                                    Du lịch Ninh Bình
-                                                                </a>
-                                                            </li>
-                                                            <li
-                                                                onMouseEnter={() => {
-                                                                    setIsSelectMB(true)
-
-                                                                }}
-                                                                onMouseLeave={() => {
-                                                                    setIsSelect(null)
-                                                                    setIsSelectMB(false)
-                                                                }}
-                                                                onClick={() => {
-                                                                    // localStorage.setItem('location', JSON.stringify(item.name));
-                                                                }}
-                                                            >
-                                                                <a style={{
-                                                                    fontWeight: "bold",
-                                                                    color: "#291868",
-                                                                    backgroundColor: "white"
-                                                                }}
-                                                                    href="/pages/tour"
-                                                                >
-                                                                    Du lịch Hạ Long
-                                                                </a>
-                                                            </li>
+                                                            {locationMN.map((item, index: number) => (
+                                                                <li key={index}
+                                                                    onMouseEnter={() => {
+                                                                        setIsSelect(index);
+                                                                        setIsSelectMN(true)
+                                                                    }}
+                                                                    onMouseLeave={() => {
+                                                                        setIsSelect(null)
+                                                                        setIsSelectMN(false)
+                                                                    }}
+                                                                    onClick={() => {
+                                                                        localStorage.setItem('location', JSON.stringify(item.name));
+                                                                    }}>
+                                                                    <a style={{
+                                                                        color: isSelect === index ? "white" : "#291868",
+                                                                        fontWeight: "bold",
+                                                                        backgroundColor: isSelect === index ? "#DB251A" : "white"
+                                                                    }}
+                                                                        href="/pages/tour"
+                                                                    >
+                                                                        Du lịch {item.name}
+                                                                    </a>
+                                                                </li>
+                                                            ))}
                                                         </ul>
                                                     </li>
                                                 </ul>
@@ -388,86 +216,29 @@ const Header = () => {
                                                 <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button"
                                                     aria-haspopup="true" aria-expanded="false" style={{ color: "#291868", fontWeight: "bold" }}>TOUR NƯỚC NGOÀI</a>
                                                 <ul className="dropdown-menu" >
-                                                    <li
-                                                    // onMouseEnter={() => {
-                                                    // }}
-                                                    // onMouseLeave={() => {
-                                                    //     setIsSelect(null)
-                                                    // }}
-                                                    // onClick={() => {
-                                                    //     localStorage.setItem('location', JSON.stringify(item.name));
-                                                    // }}
-                                                    >
-                                                        <a style={{
-                                                            color: "white",
-                                                            fontWeight: "bold",
-                                                            backgroundColor: "#DB251A"
-                                                        }}
-                                                            href="/pages/tour"
+                                                    {locationCA.map((item, index: number) => (
+                                                        <li key={index}
+                                                            onMouseEnter={() => {
+                                                                setIsSelect(index);
+                                                            }}
+                                                            onMouseLeave={() => {
+                                                                setIsSelect(null)
+                                                            }}
+                                                            onClick={() => {
+                                                                localStorage.setItem('location', JSON.stringify(item.name));
+                                                            }}
                                                         >
-                                                            Du lịch Hà Giang
-                                                        </a>
-                                                    </li>
-                                                    <li
-                                                    // onMouseEnter={() => {
-                                                    // }}
-                                                    // onMouseLeave={() => {
-                                                    //     setIsSelect(null)
-                                                    // }}
-                                                    // onClick={() => {
-                                                    //     localStorage.setItem('location', JSON.stringify(item.name));
-                                                    // }}
-                                                    >
-                                                        <a style={{
-                                                            color: "white",
-                                                            fontWeight: "bold",
-                                                            backgroundColor: "#DB251A"
-                                                        }}
-                                                            href="/pages/tour"
-                                                        >
-                                                            Du lịch Hà Nội
-                                                        </a>
-                                                    </li>
-                                                    <li
-                                                    // onMouseEnter={() => {
-                                                    // }}
-                                                    // onMouseLeave={() => {
-                                                    //     setIsSelect(null)
-                                                    // }}
-                                                    // onClick={() => {
-                                                    //     localStorage.setItem('location', JSON.stringify(item.name));
-                                                    // }}
-                                                    >
-                                                        <a style={{
-                                                            color: "white",
-                                                            fontWeight: "bold",
-                                                            backgroundColor: "#DB251A"
-                                                        }}
-                                                            href="/pages/tour"
-                                                        >
-                                                            Du lịch Ninh Bình
-                                                        </a>
-                                                    </li>
-                                                    <li
-                                                    // onMouseEnter={() => {
-                                                    // }}
-                                                    // onMouseLeave={() => {
-                                                    //     setIsSelect(null)
-                                                    // }}
-                                                    // onClick={() => {
-                                                    //     localStorage.setItem('location', JSON.stringify(item.name));
-                                                    // }}
-                                                    >
-                                                        <a style={{
-                                                            color: "white",
-                                                            fontWeight: "bold",
-                                                            backgroundColor: "#DB251A"
-                                                        }}
-                                                            href="/pages/tour"
-                                                        >
-                                                            Du lịch Hạ Long
-                                                        </a>
-                                                    </li>
+                                                            <a style={{
+                                                                color: isSelect === index ? "white" : "#291868",
+                                                                fontWeight: "bold",
+                                                                backgroundColor: isSelect === index ? "#DB251A" : "white"
+                                                            }}
+                                                                href="/pages/tour"
+                                                            >
+                                                                Du lịch {item.name}
+                                                            </a>
+                                                        </li>
+                                                    ))}
                                                 </ul>
                                             </li>
                                             <li className="submenu dropdown">
@@ -585,7 +356,27 @@ const Header = () => {
                                                             {isSelectMB ? < KeyboardArrowUpIcon style={{ fontSize: 30 }} /> : <KeyboardArrowDownIcon style={{ fontSize: 30 }} />}
                                                         </div>
                                                     </div>
-
+                                                    {isSelectMB ? (
+                                                        <div>
+                                                            {locationMB.map((item, index: number) => (
+                                                                <div key={index} style={{
+                                                                    display: "flex", flexDirection: "column",
+                                                                    height: 50, justifyContent: "center",
+                                                                    borderTop: "1px solid #dedede",
+                                                                    color: isSelect === index ? "white" : "#291868",
+                                                                    backgroundColor: isSelect === index ? "#DB251A" : "white"
+                                                                }}
+                                                                    onClick={() => {
+                                                                        setIsSelect(index);
+                                                                        localStorage.setItem('location', JSON.stringify(item.name));
+                                                                        window.location.href = "/pages/tour"
+                                                                    }}
+                                                                >
+                                                                    <span style={{ fontSize: 18, marginLeft: 40, fontWeight: "bold" }}>Du Lịch {item.name}</span>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    ) : null}
                                                 </div>
                                                 <div>
                                                     <div style={{
@@ -606,7 +397,7 @@ const Header = () => {
                                                     </div>
                                                     {isSelectMT ? (
                                                         <div>
-                                                            {/* {locationMT.map((item, index: number) => (
+                                                            {locationMT.map((item, index: number) => (
                                                                 <div key={index} style={{
                                                                     display: "flex", flexDirection: "column",
                                                                     height: 50, justifyContent: "center",
@@ -622,7 +413,7 @@ const Header = () => {
                                                                 >
                                                                     <span style={{ fontSize: 18, marginLeft: 40, fontWeight: "bold" }}>Du Lịch {item.name}</span>
                                                                 </div>
-                                                            ))} */}
+                                                            ))}
                                                         </div>
                                                     ) : null}
                                                 </div>
@@ -645,7 +436,7 @@ const Header = () => {
                                                     </div>
                                                     {isSelectMN ? (
                                                         <div>
-                                                            {/* {locationMN.map((item, index: number) => (
+                                                            {locationMN.map((item, index: number) => (
                                                                 <div key={index} style={{
                                                                     display: "flex", flexDirection: "column",
                                                                     height: 50, justifyContent: "center",
@@ -661,7 +452,7 @@ const Header = () => {
                                                                 >
                                                                     <span style={{ fontSize: 18, marginLeft: 40, fontWeight: "bold" }}>Du Lịch {item.name}</span>
                                                                 </div>
-                                                            ))} */}
+                                                            ))}
                                                         </div>
                                                     ) : null}
                                                 </div>
@@ -696,7 +487,7 @@ const Header = () => {
                                     <div>
                                         {isSelectNN ? (
                                             <div>
-                                                {/* {locationNN.map((item, index: number) => (
+                                                {locationNN.map((item, index: number) => (
                                                     <div key={index} style={{
                                                         display: "flex", flexDirection: "column",
                                                         height: 50, justifyContent: "center",
@@ -712,7 +503,7 @@ const Header = () => {
                                                     >
                                                         <span style={{ fontSize: 18, marginLeft: 40, fontWeight: "bold" }}>Du Lịch {item.name}</span>
                                                     </div>
-                                                ))} */}
+                                                ))}
                                             </div>
                                         ) : null}
 
