@@ -4,13 +4,13 @@ import Slider from 'react-slick';
 import SurfingIcon from '@mui/icons-material/Surfing';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useEffect, useState } from 'react';
-import Header from './header/header';
 import Footer from './footer/footer';
 import { useMediaQuery } from '@mui/material';
 import { useAppDispatch, useAppSelector } from './redux-store/hook';
 import { getLocationHotAsync, getLocationHotList } from './redux-store/location-hot/slice';
 import { getLocationAsync, getLocationList } from './redux-store/location/slice';
 import { getTourAsync, getTourList } from './redux-store/tour/slice';
+import Header from './header/header';
 interface LocationItem {
   id: number;
   name: string;
